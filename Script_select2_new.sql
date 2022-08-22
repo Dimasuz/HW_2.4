@@ -84,7 +84,22 @@ GROUP BY a.name
 GROUP BY a.name) as alb
 );
 
+*/
+Только в последнем запросе можно было обойтись одним уровнем вложенности 
+(названия полей и таблиц мои, но суть не меняется):
 
+  SELECT Album.Title Album, COUNT(Track.Title) Track_count FROM Album 
+    JOIN Track ON Album.Id = Track.AlbumId
+GROUP BY Album.Title
+  HAVING COUNT(Track.Title) = (  
+  SELECT COUNT(Track.Title) FROM Album
+    JOIN Track ON Album.Id = Track.AlbumId
+GROUP BY Album.Title
+ORDER BY COUNT(Track.Title)
+   LIMIT 1);
+
+Зачет!
+*/
 
 
 
